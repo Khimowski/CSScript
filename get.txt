@@ -9,7 +9,7 @@
 		if(!form['password'].value){
 			alert("密码不能为空");return false;
 		}
-    		form['password'].value = CryptoJS.SHA1('a276934d-b159-4aaf-b1cd-05624276539d-' + form['password'].value);
+    		form['password'].value = CryptoJS.SHA1('9d8f2bd2-b09b-47eb-b1f4-9f2c903eb9d1-' + form['password'].value);
 		return true;
 	}
 	
