@@ -4,7 +4,7 @@ import os
 
 from model.CourseModel import CourseModel
 
-class configUtil:
+class ConfigUtil:
     """
     [工具类]
     读取配置文件使用的工具类
@@ -21,7 +21,7 @@ class configUtil:
 
         :return: configToDict
         """
-        filePath = os.path.join(configUtil.parent_dir, 'config', filePath)
+        filePath = os.path.join(ConfigUtil.parent_dir, 'config', filePath)
         # print(filePath)
         cfg = configparser.ConfigParser()
         cfg.read(filePath)
@@ -38,7 +38,7 @@ class configUtil:
 
         :return: configToList
         """
-        filePath = os.path.join(configUtil.parent_dir, 'config', filePath)
+        filePath = os.path.join(ConfigUtil.parent_dir, 'config', filePath)
         cfg = configparser.ConfigParser()
         cfg.read(filePath,encoding='utf-8')
         configDict = dict(cfg.items(configType))
@@ -46,7 +46,7 @@ class configUtil:
 
     @staticmethod
     def readJsonCourseConfigFile(filePath : str):
-        filePath = os.path.join(configUtil.parent_dir, 'config', filePath)
+        filePath = os.path.join(ConfigUtil.parent_dir, 'config', filePath)
         with open(filePath,'r',encoding='utf-8') as f:
             data = json.load(f)
             f.close()

@@ -2,8 +2,10 @@ import hashlib
 import logging
 
 from requests import Session
-from utils.saltUtil import SaltUtil
-from utils.configUtil import configUtil
+from utils.SaltUtil import SaltUtil
+from utils.ConfigUtil import ConfigUtil
+
+from manager.LogManager import LogManager
 
 class LoginModule:
     """
@@ -11,10 +13,17 @@ class LoginModule:
     实现模拟登录的模块类
     """
     def __init__(self, session : Session):
+        self.logger = LogManager("登录模块")
         self.session = session
-        self.url = configUtil.readConfigFile("websiteConfig.ini","website")["loginurl"]
-        self.__username = configUtil.readConfigFile("userConfig.ini","user")["username"],
-        self.__password = configUtil.readConfigFile("userConfig.ini","user")["password"]
+        self.url = ConfigUtil.readConfigFile("websiteConfig.ini", "website")["loginurl"]
+        self.__username = ConfigUtil.readConfigFile("userConfig.ini", "user")["username"],
+        self.__password = ConfigUtil.readConfigFile("userConfig.ini", "user")["password"]
+
+        self.params = {
+            "username" : self.__username,
+            "password" : hashlib.sha1((SaltUtil.getSalt(self.session,self.url)+self.__password).encode()).hexdigest(),
+            "session_locale" : "zh_CN",
+        }
 
     def login(self):
         """
@@ -23,16 +32,7 @@ class LoginModule:
         """
         logging.info("LoginModule | 正在准备模拟登录")
         logging.info("LoginModule | 正在调用saltUtil")
-        salt = SaltUtil.getSalt(self.session,self.url)
-        print(salt)
-        print(self.__password)
 
-        params = {
-            "username" : self.__username,
-            "password" : hashlib.sha1((salt+self.__password).encode()).hexdigest(),
-            "session_locale" : "zh_CN",
-        }
-
-        response = self.session.post(self.url,params = params)
-        print(response.cookies)
+        response = self.session.post(self.url,params = self.params)
+        print(f"登录请求发送返回重定向cookie:{response.cookies}")
         return response

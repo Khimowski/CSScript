@@ -1,23 +1,29 @@
 import time
 from tkinter.tix import Select
 
-from module.SelectModule import SelectModule
-from utils.sessionUtil import sessionUtil
-from utils.configUtil import configUtil
+from utils.SessionUtil import SessionUtil
+from utils.ConfigUtil import ConfigUtil
 
+from module.SelectModule import SelectModule
 from module.LoginModule import LoginModule
 from module.CourseModule import CourseModule
 
+from manager.LogManager import LogManager
+
 def run():
-    session = sessionUtil.getSession()
-    session = sessionUtil.setSession(session)
-    time.sleep(2)
+    logger = LogManager("主控件")
+    logger.info("正在获取会话")
+    session = SessionUtil.getSession()
+    session = SessionUtil.initSession(session)
+    logger.info("获取会话成功")
+    time.sleep(1)
 
     LoginModuleObject = LoginModule(session)
     get = LoginModuleObject.login()
     print(get.text)
     url = "https://jwxt.sias.edu.cn/eams/homeExt.action"
     response = session.get(url)
+    print("发送主页get请求:")
     print(response.cookies)
     print(response.headers)
 

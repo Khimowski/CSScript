@@ -1,7 +1,9 @@
 import logging
 
 from model.CourseModel import CourseModel
-from utils.configUtil import configUtil
+from utils.ConfigUtil import ConfigUtil
+
+from manager.LogManager import LogManager
 
 import requests
 from requests import Session
@@ -10,33 +12,27 @@ import threading
 from bs4 import BeautifulSoup
 
 class SelectModule:
-    def __init__(self, session: Session, courseList : list, interval = 1):
+    def __init__(self,  session : Session, courseList : list, interval = 1):
+        self.logger = LogManager("抢课模块")
+        self.logger.info("正在初始化...")
         self.session = session
         self.courseList = courseList
-        self.url = configUtil.readConfigFile("websiteConfig.ini","website")["courseselecturl"]
-        self.profile = configUtil.readConfigFile("websiteConfig.ini","website")["profile"]
+        self.url = ConfigUtil.readConfigFile("websiteConfig.ini", "website")["courseselecturl"]
+        self.profile = ConfigUtil.readConfigFile("websiteConfig.ini", "website")["profile"]
 
         self.url = self.url + self.profile
-        print(self.url)
+        self.logger.debug("获取到的抢课api链接为" + self.url)
         self.session.headers["Referer"] = "https://jwxt.sias.edu.cn/eams/stdElectCourse!defaultPage.action?electionProfile.id="+self.profile
         self.interval = interval
         self.timelock = threading.Lock()
         self.lasttime = time.time()
 
-        print(self.session.headers)
-        print(self.session.cookies)
-        self.session.cookies["semester.id"] = "242"
-        self.session.cookies["srv_id"] = "srv1"
-        print(self.session.cookies)
+        self.logger.debug("session信息如下:\n" + str(self.session.headers) + "\n" + str(self.session.cookies))
 
-        input("回车继续...")
+        self.logger.info("初始化完成")
 
 
     def isSuccess(self, response):
-        print(response.text)
-        print(dict(response.cookies))
-        print(response.headers)
-        print(response.status_code)
         soup = BeautifulSoup(response.text, "html.parser")
         result_div = soup.find('div',
                                style=lambda s: s and 'width:85%' in s and 'text-align:left' in s and 'margin:auto' in s)
@@ -114,8 +110,3 @@ class SelectModule:
 
         for thread in threads:
             thread.join()
-
-
-
-
-

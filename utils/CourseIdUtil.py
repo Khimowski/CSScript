@@ -4,11 +4,11 @@ import os
 import json
 import re
 
-from utils.configUtil import configUtil
+from utils.ConfigUtil import ConfigUtil
 
 from model.CourseModel import CourseModel
 
-class courseIdUtil:
+class CourseIdUtil:
     @staticmethod
     def findCourseId(filename, search_text):
         """
@@ -51,8 +51,8 @@ class courseIdUtil:
 
     @staticmethod
     def getCourseJson(session : Session):
-        url = configUtil.readConfigFile("websiteConfig.ini","website")["coursedataurl"]
-        profileId = configUtil.readConfigFile("websiteConfig.ini","website")["profile"]
+        url = ConfigUtil.readConfigFile("websiteConfig.ini", "website")["coursedataurl"]
+        profileId = ConfigUtil.readConfigFile("websiteConfig.ini", "website")["profile"]
         url = url + profileId
 
         ThisSession = session
@@ -76,7 +76,7 @@ class courseIdUtil:
             print("未找到文件")
             raise Exception("未找到文件")
 
-        id = courseIdUtil.findCourseId("course_data.action", courseNo)
+        id = CourseIdUtil.findCourseId("course_data.action", courseNo)
         return id
 
 

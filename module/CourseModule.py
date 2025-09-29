@@ -1,16 +1,19 @@
 from requests import Session
 
-from utils.configUtil import configUtil
-from model.CourseModel import CourseModel
-from utils.courseIdUtil import courseIdUtil
+from utils.ConfigUtil import ConfigUtil
+from utils.CourseIdUtil import CourseIdUtil
 
+from model.CourseModel import CourseModel
+
+from manager.LogManager import LogManager
 
 class CourseModule:
     """
     [模块类]
     获取课程列表的模块类
     """
-    def __init__(self, session: Session):
+    def __init__(self, session : Session):
+        self.logger = LogManager("课程代码模块")
         self.session = session
 
 
@@ -20,10 +23,10 @@ class CourseModule:
         :return: course_list
         """
 
-        courseList = configUtil.readJsonCourseConfigFile("courseList.json")
+        courseList = ConfigUtil.readJsonCourseConfigFile("courseList.json")
 
         for course in courseList:
-            id = courseIdUtil.getCourseId(self.session, course)
+            id = CourseIdUtil.getCourseId(self.session, course)
             course.setCourseId(id)
 
         return courseList

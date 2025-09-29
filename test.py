@@ -1,4 +1,4 @@
-from utils.configUtil import configUtil
+from utils.ConfigUtil import ConfigUtil
 
 import re
 import json

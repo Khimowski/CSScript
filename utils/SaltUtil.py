@@ -67,12 +67,8 @@ class SaltUtil:
 
     @staticmethod
     def getSalt(session : Session, url : str):
-        print(session.cookies)
         logging.info(f"saltUtil | 正在获取salt")
         response = session.get(url)
-        print(session.cookies)
-        print(response.cookies)
-        print(dict(response.cookies))
         SaltUtil.saveScriptFromResponse(response.text, "get.txt")
         salt = SaltUtil.getUUIDFromFile("get.txt")
         logging.info(f"saltUtil | 已获取到salt")
