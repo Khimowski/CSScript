@@ -11,7 +11,7 @@ from module.CourseModule import CourseModule
 from manager.LogManager import LogManager
 
 def run():
-    logger = LogManager("主控件")
+    logger = LogManager("中央控件")
     logger.info("正在获取会话")
     session = SessionUtil.getSession()
     session = SessionUtil.initSession(session)

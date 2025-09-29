@@ -5,6 +5,8 @@ import time
 import sys
 import os
 
+from utils.ConfigUtil import ConfigUtil
+
 CRITI = 50
 ERROR = 40
 WARN  = 35
@@ -113,7 +115,7 @@ def getLogger(name, level=DEBUG, log_format=None):
         normal_handler.setFormatter(normal_formatter)
         normal_handler.setLevel(INFO)
 
-        debug_handler = logging.FileHandler(f"CSScriptLog {datetime.datetime.now().strftime('%Y-%m-%d')}.log", mode='a')
+        debug_handler = logging.FileHandler(f"{ConfigUtil.readConfigFile("LogConfig.ini","log-config")["logname"]} {datetime.datetime.now().strftime('%Y-%m-%d')}.log", mode='a')
         debug_formatter = TruncateColoredFormatter(
             fmt='[%(asctime)s] <%(filename)-12s>/%(name)-6s > %(levelname)-5s | %(message)s'
         )

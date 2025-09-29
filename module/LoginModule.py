@@ -30,9 +30,10 @@ class LoginModule:
         实现模拟登录的方法
         :return: responseWhenLogin
         """
-        logging.info("LoginModule | 正在准备模拟登录")
-        logging.info("LoginModule | 正在调用saltUtil")
+        self.logger.info("正在准备模拟登录")
+        self.logger.info("正在调用saltUtil")
 
         response = self.session.post(self.url,params = self.params)
-        print(f"登录请求发送返回重定向cookie:{response.cookies}")
+
+        self.logger.info("模拟登录完成")
         return response
