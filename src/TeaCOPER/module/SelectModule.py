@@ -17,8 +17,8 @@ class SelectModule:
         self.logger.info("正在初始化...")
         self.session = session
         self.courseList = courseList
-        self.url = ConfigUtil.readConfigFile("websiteConfig.ini", "website")["courseselecturl"]
-        self.profile = ConfigUtil.readConfigFile("websiteConfig.ini", "website")["profile"]
+        self.url = ConfigUtil.readConfigFile("website")["courseselecturl"]
+        self.profile = ConfigUtil.readConfigFile("website")["profile"]
 
         self.url = self.url + self.profile
         self.logger.debug("获取到的抢课api链接为" + self.url)

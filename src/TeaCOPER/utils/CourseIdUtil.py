@@ -51,8 +51,8 @@ class CourseIdUtil:
 
     @staticmethod
     def getCourseJson(session : Session):
-        url = ConfigUtil.readConfigFile("websiteConfig.ini", "website")["coursedataurl"]
-        profileId = ConfigUtil.readConfigFile("websiteConfig.ini", "website")["profile"]
+        url = ConfigUtil.readConfigFile("website")["coursedataurl"]
+        profileId = ConfigUtil.readConfigFile("website")["profile"]
         url = url + profileId
 
         ThisSession = session

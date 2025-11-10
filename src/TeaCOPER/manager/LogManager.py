@@ -1,8 +1,6 @@
 import logging
 import colorlog
 import datetime
-import time
-import sys
 import os
 
 from src.TeaCOPER.utils.ConfigUtil import ConfigUtil
@@ -115,7 +113,7 @@ def getLogger(name, level=DEBUG, log_format=None):
         normal_handler.setFormatter(normal_formatter)
         normal_handler.setLevel(INFO)
 
-        debug_handler = logging.FileHandler(f"{ConfigUtil.readConfigFile("LogConfig.ini","log-config")["logname"]} {datetime.datetime.now().strftime('%Y-%m-%d')}.log", mode='a')
+        debug_handler = logging.FileHandler(f"{ConfigUtil.readConfigFile("log-config")["logname"]} {datetime.datetime.now().strftime('%Y-%m-%d')}.log", mode='a')
         debug_formatter = TruncateColoredFormatter(
             fmt='[%(asctime)s] <%(filename)-12s>/%(name)-6s > %(levelname)-5s | %(message)s'
         )

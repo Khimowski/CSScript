@@ -15,9 +15,9 @@ class LoginModule:
     def __init__(self, session : Session):
         self.logger = LogManager("登录模块")
         self.session = session
-        self.url = ConfigUtil.readConfigFile("websiteConfig.ini", "website")["loginurl"]
-        self.__username = ConfigUtil.readConfigFile("userConfig.ini", "user")["username"],
-        self.__password = ConfigUtil.readConfigFile("userConfig.ini", "user")["password"]
+        self.url = ConfigUtil.readConfigFile("website")["loginurl"]
+        self.__username = ConfigUtil.readConfigFile("user")["username"],
+        self.__password = ConfigUtil.readConfigFile("user")["password"]
 
         self.params = {
             "username" : self.__username,

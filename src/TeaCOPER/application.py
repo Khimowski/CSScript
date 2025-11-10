@@ -1,5 +1,4 @@
 import time
-from tkinter.tix import Select
 
 from src.TeaCOPER.utils.SessionUtil import SessionUtil
 
