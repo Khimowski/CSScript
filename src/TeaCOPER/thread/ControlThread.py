@@ -72,7 +72,7 @@ class ControlThread(QObject, threading.Thread):
         ### 等待开发这一部分
 
         # 创建工作线程
-        for i in range(8): # 8线程测试，后续改为GUI输入
+        for i in range(1,8): # 8线程测试，后续改为GUI输入
             worker = WorkerThread(
                 worker_id = i,
                 session = session,
@@ -82,16 +82,48 @@ class ControlThread(QObject, threading.Thread):
             )
             self.workers.append(worker)
             worker.start()
-            self.worker_status_changed.emit()
+            self.worker_status_changed.emit(i,"启动")
 
     def _process_commands(self):
         """处理来自前端的命令"""
+        try:
+            while not self.command_queue.empty():
+                command = self.command_queue.get()
+                self._execute_command(command)
+        except queue.Empty:
+            pass
+        except Exception as e:
+            logger.error(e)
 
     def _execute_command(self, command: Dict[str, Any]):
         """执行具体命令"""
+        cmd_type = command.get("type")
+
+        if cmd_type == "start_selection":      #开始选课
+            self.course_list = command.get("courses")
+            self._distribute_courses()
+        elif cmd_type == "stop_selection":     #结束选课
+            self.running = False
+            self._stop_workers()
+        elif cmd_type == "pause_selection":    #暂停选课
+            self._pause_workers()
+        elif cmd_type == "resume_selection":   #继续选课
+            self._resume_workers()
+        elif cmd_type == "update_settings":
+            settings = command.get("settings")
+            self.resource_queue.put(settings)
 
     def _distribute_courses(self):
         """分配课程到工作线程"""
+        if not self.course_list:
+            return
+
+        for course in self.course_list:
+            resource = {
+                'type' : 'course',
+                'course' : course
+            }
+            self.resource_queue.put(resource)
 
     def _process_worker_status_update(self):
         """处理工作线程状态更新"""
