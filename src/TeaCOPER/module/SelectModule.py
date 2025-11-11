@@ -1,6 +1,6 @@
 import logging
 
-from src.TeaCOPER.model.CourseModel import CourseModel
+from src.TeaCOPER.model.Course import CourseModel
 from src.TeaCOPER.utils.ConfigUtil import ConfigUtil
 
 from src.TeaCOPER.manager.LogManager import LogManager
