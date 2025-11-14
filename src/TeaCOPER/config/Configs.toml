@@ -17,3 +17,6 @@ Referer = "https://jwxt.sias.edu.cn/eams/loginExt.action"
 
 [log-config]
 LogName = "DebugLog"
+
+[select]
+ThreadNum = 8
